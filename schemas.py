@@ -15,7 +15,7 @@ class ClienteSchema(BaseModel):
         Data_vencimento:date
         @field_serializer('Data_venda')
         def formatar_data(self, dt: date):
-            return dt.strftime('/%D/%M/%Y')
+            return dt.strftime('/%d/%m/%y')
 
 class LoginSchema(BaseModel):
        email : EmailStr
@@ -23,7 +23,6 @@ class LoginSchema(BaseModel):
 
        class Config:
               from_attributes = True
-        
 #Aqui está a explicação detalhada de cada parte:
 
 # 1. O Decorador @field_serializer('Data_venda')

@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from jose import jwt,JWTError
 from datetime import datetime,timedelta,timezone
 from fastapi.security import OAuth2PasswordRequestForm
+from seguranca import criptografar_dado,descriptografar_dado
 
 def criar_token(id_usuario,duracao_token=timedelta(ACCESS_TOKEN_EXPIRE_MINUTES)):
     data_expiração = datetime.now(timezone.utc) + duracao_token
@@ -32,8 +33,9 @@ async def criar_conta(usuario_schema : UsuarioSchema,session = Depends(pegar_ses
             status_code=400, detail="Email já cadastrado"
         )
     else:
+        email_criptografada = criptografar_dado(usuario_schema.email)
         senha_criptografada = bcrypt_context.hash(usuario_schema.senha)
-        novo_usuario = Usuario(usuario_schema.nome,usuario_schema.email,senha_criptografada)
+        novo_usuario = Usuario(usuario_schema.nome,email_criptografada,senha_criptografada)
         session.add(novo_usuario)
         session.commit()
         return{"mensagem":"usuário cadastrado com sucesso"}

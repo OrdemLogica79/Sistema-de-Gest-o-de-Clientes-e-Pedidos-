@@ -6,15 +6,18 @@ from jose import jwt,JWTError
 from datetime import datetime, timedelta,timezone
 import os
 from fastapi.middleware.cors import CORSMiddleware
+from cryptography.fernet import Fernet
 
 load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM  = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+CHAVE_F = os.getenv("CHAVE_F")
 
 app = FastAPI()
 
+fernet = Fernet(CHAVE_F)
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_schema = OAuth2PasswordBearer (tokenUrl="login/login-form")
 

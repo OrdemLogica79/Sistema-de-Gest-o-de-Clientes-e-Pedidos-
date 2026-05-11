@@ -22,6 +22,7 @@ class Usuario(Base):
 class Cliente(Base):
     __tablename__ ="clientes"
 
+    user_id = Column ("user_id",Integer,ForeignKey("usuarios.id"),nullable=False)
     id = Column("Id",Integer,primary_key=True,autoincrement=True)
     Nome_do_Cliente = Column("Nome_do_Cliente",String)
     Email = Column("Email",String,unique=True)
