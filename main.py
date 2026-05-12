@@ -15,7 +15,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM  = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 CHAVE_F = os.getenv("CHAVE_F")
-SQL = os.getenv("SUPE")
+SUPER = os.getenv("SUPER")
 app = FastAPI()
 
 app.add_middleware(
