@@ -8,10 +8,9 @@ import os
 from fastapi.middleware.cors import CORSMiddleware
 from cryptography.fernet import Fernet
 
-origins = ["https://clientnt.netlify.app/"]
 
 load_dotenv()
-
+origins = os.getenv("ORIGINS")
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM  = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
