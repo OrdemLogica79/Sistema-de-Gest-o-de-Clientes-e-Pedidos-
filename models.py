@@ -31,7 +31,9 @@ class Cliente(Base):
     Data_venda = Column("Data_venda",Date)
     Data_vencimento = Column("Data_vencimento",Date)
 
-    def __init__(self,Nome_do_Cliente,Email,Telefone,IMEI, Data_venda, Data_vencimento,):
+    def __init__(self,user_id,Nome_do_Cliente,Email,Telefone,IMEI, Data_venda, Data_vencimento,):
+        
+        self.user_id = user_id
         self.Nome_do_Cliente = Nome_do_Cliente
         self.Email = Email
         self.Telefone = Telefone

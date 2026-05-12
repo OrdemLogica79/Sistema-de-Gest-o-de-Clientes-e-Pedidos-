@@ -8,6 +8,8 @@ import os
 from fastapi.middleware.cors import CORSMiddleware
 from cryptography.fernet import Fernet
 
+origins = ["https://clientnt.netlify.app/"]
+
 load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -16,6 +18,14 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 CHAVE_F = os.getenv("CHAVE_F")
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,            # Permite os domínios da lista acima
+    allow_credentials=True,           # Permite o envio de cookies/autenticação [3]
+    allow_methods=["*"],               # Permite todos os métodos (GET, POST, PUT, DELETE)
+    allow_headers=["*"],               # Permite todos os cabeçalhos (Authorization, Content-Type, etc.)
+)
 
 fernet = Fernet(CHAVE_F)
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -27,4 +37,3 @@ from CadastroC import cliente_router
 
 app.include_router(login_router)
 app.include_router(cliente_router)
-
