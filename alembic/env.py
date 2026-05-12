@@ -18,7 +18,7 @@ config = context.config
 
 load_dotenv()
 
-url_do_banco = os.getenv("CONEXAO")
+url_do_banco = os.getenv("DATABASE_URL")
 config.set_main_option("sqlalchemy.url", url_do_banco)
 
 # Interpret the config file for Python logging.
