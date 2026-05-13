@@ -17,7 +17,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 CHAVE_F = os.getenv("CHAVE_F")
 DATABASE_URL = os.getenv("DATABASE_URL")
 app = FastAPI()
-
+#
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,            # Permite os domínios da lista acima
