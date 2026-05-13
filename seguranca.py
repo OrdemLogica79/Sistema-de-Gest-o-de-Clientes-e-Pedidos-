@@ -6,7 +6,10 @@ load_dotenv()
 
 
 CHAVE_F = os.getenv("CHAVE_F")
-fernet = Fernet(CHAVE_F)
+if not CHAVE_F:
+    raise ValueError("CHAVE_F não configurada no ambiente")
+
+fernet = Fernet(CHAVE_F.encode())
 
 def criptografar_dado(texto: str) -> str:
     return fernet.encrypt(texto.encode()).decode()
