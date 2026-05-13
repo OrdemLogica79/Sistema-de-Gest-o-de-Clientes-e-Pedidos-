@@ -10,7 +10,7 @@ from cryptography.fernet import Fernet
 
 
 load_dotenv()
-origins = os.getenv("ORIGINS")
+
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM  = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
@@ -18,13 +18,7 @@ CHAVE_F = os.getenv("CHAVE_F")
 DATABASE_URL = os.getenv("DATABASE_URL")
 app = FastAPI()
 #
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,            # Permite os domínios da lista acima
-    allow_credentials=True,           # Permite o envio de cookies/autenticação [3]
-    allow_methods=["*"],               # Permite todos os métodos (GET, POST, PUT, DELETE)
-    allow_headers=["*"],               # Permite todos os cabeçalhos (Authorization, Content-Type, etc.)
-)
+
 
 fernet = Fernet(CHAVE_F)
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
