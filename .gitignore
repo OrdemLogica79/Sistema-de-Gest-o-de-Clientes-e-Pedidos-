@@ -68,3 +68,9 @@ yarn-error.log
 DOCUMENTACAO_ALTERACOES_2026-05-13.md
 IMPLEMENTAR_CORRECOES.md
 SECURITY_AUDIT.md
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
