@@ -10,20 +10,21 @@ from cryptography.fernet import Fernet
 
 
 load_dotenv()
-ORIGINS = os.getenv("ORIGINS")
+ORIGINS = os.getenv("ORIGINS", "*")  # Default para "*" se não estiver no .env
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM  = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 CHAVE_F = os.getenv("CHAVE_F")
 DATABASE_URL = os.getenv("DATABASE_URL")
 app = FastAPI()
-#
+
+# Configuração CORS permissiva para desenvolvimento
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ORIGINS,            # Permite os domínios da lista acima
-    allow_credentials=True,           # Permite o envio de cookies/autenticação [3]
-    allow_methods=["*"],               # Permite todos os métodos (GET, POST, PUT, DELETE)
-    allow_headers=["*"],               # Permite todos os cabeçalhos (Authorization, Content-Type, etc.)
+    allow_origins=["*"],  # Permite todos os domínios para testes
+    allow_credentials=False,  # Desabilitado quando usar "*"
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 fernet = Fernet(CHAVE_F)

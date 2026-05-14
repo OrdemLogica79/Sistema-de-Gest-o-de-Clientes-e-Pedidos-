@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestão de Clientes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Página de Login -->
+    <div id="loginPage" class="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 to-blue-700">
+        <div class="w-full max-w-md bg-white rounded-lg shadow-xl p-8">
+            <div class="text-center mb-8">
+                <div class="flex items-center justify-center mb-4">
+                    <i class="fas fa-users text-blue-600 text-4xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-800">CRM System</h1>
+                <p class="text-gray-600 mt-2">Sistema de Gestão de Clientes</p>
+            </div>
+
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                        placeholder="seu@email.com"
+                    >
+                </div>
+
+                <div>
+                    <label for="senha" class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                    <input 
+                        type="password" 
+                        id="senha" 
+                        name="senha" 
+                        required 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                        placeholder="••••••••"
+                    >
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200 flex items-center justify-center gap-2"
+                >
+                    <i class="fas fa-sign-in-alt"></i>
+                    Entrar
+                </button>
+            </form>
+
+            <div id="loginError" class="mt-4 hidden"></div>
+
+            <div class="mt-6 pt-6 border-t border-gray-200">
+                <p class="text-center text-sm text-gray-600 mb-3">Não tem uma conta?</p>
+                <button 
+                    type="button" 
+                    onclick="showRegisterModal()"
+                    class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 rounded-lg transition duration-200 flex items-center justify-center gap-2"
+                >
+                    <i class="fas fa-user-plus"></i>
+                    Criar Conta
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Registro -->
+    <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Criar Conta</h2>
+                <button onclick="closeRegisterModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+
+            <form id="registerForm" class="space-y-4">
+                <div>
+                    <label for="regNome" class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+                    <input 
+                        type="text" 
+                        id="regNome" 
+                        name="nome" 
+                        required 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                        placeholder="Seu Nome"
+                    >
+                </div>
+
+                <div>
+                    <label for="regEmail" class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
+                    <input 
+                        type="email" 
+                        id="regEmail" 
+                        name="email" 
+                        required 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                        placeholder="seu@email.com"
+                    >
+                </div>
+
+                <div>
+                    <label for="regSenha" class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                    <input 
+                        type="password" 
+                        id="regSenha" 
+                        name="senha" 
+                        required 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                        placeholder="••••••••"
+                    >
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition duration-200"
+                >
+                    Criar Conta
+                </button>
+            </form>
+
+            <div id="registerError" class="mt-4 hidden"></div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="hidden">
+        <nav class="bg-white shadow-md">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-users text-blue-600 text-2xl"></i>
+                        <h1 class="text-2xl font-bold text-gray-800">CRM System</h1>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span id="userEmail" class="text-gray-600"></span>
+                        <button 
+                            onclick="logout()"
+                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2"
+                        >
+                            <i class="fas fa-sign-out-alt"></i>
+                            Sair
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Tabs -->
+            <div class="flex gap-4 mb-6 border-b border-gray-200">
+                <button 
+                    onclick="switchTab('meus-clientes')"
+                    class="tabBtn active px-4 py-2 font-semibold text-blue-600 border-b-2 border-blue-600 transition"
+                    data-tab="meus-clientes"
+                >
+                    <i class="fas fa-list mr-2"></i>Meus Clientes
+                </button>
+                <button 
+                    onclick="switchTab('novo-cliente')"
+                    class="tabBtn px-4 py-2 font-semibold text-gray-600 border-b-2 border-transparent hover:text-blue-600 transition"
+                    data-tab="novo-cliente"
+                >
+                    <i class="fas fa-user-plus mr-2"></i>Novo Cliente
+                </button>
+            </div>
+
+            <!-- Tab: Meus Clientes -->
+            <div id="tab-meus-clientes" class="tab-content">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-list mr-2 text-blue-600"></i>Meus Clientes
+                    </h2>
+
+                    <div id="loadingClientes" class="flex items-center justify-center py-8">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                        <span class="ml-3 text-gray-600">Carregando clientes...</span>
+                    </div>
+
+                    <div id="clientesError" class="hidden"></div>
+
+                    <div class="overflow-x-auto">
+                        <table id="clientesTable" class="w-full hidden">
+                            <thead class="bg-gray-100 border-b border-gray-300">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Nome</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">E-mail</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Telefone</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">IMEI</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Data Venda</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Data Vencimento</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientesList" class="divide-y divide-gray-200">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="emptyClientes" class="text-center py-8 hidden">
+                        <i class="fas fa-inbox text-4xl text-gray-300 mb-4 block"></i>
+                        <p class="text-gray-600 text-lg">Nenhum cliente cadastrado ainda</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Novo Cliente -->
+            <div id="tab-novo-cliente" class="tab-content hidden">
+                <div class="bg-white rounded-lg shadow-md p-6 max-w-2xl">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                        <i class="fas fa-user-plus mr-2 text-blue-600"></i>Cadastrar Novo Cliente
+                    </h2>
+
+                    <form id="novoClienteForm" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="nomeCliente" class="block text-sm font-medium text-gray-700 mb-1">Nome do Cliente *</label>
+                                <input 
+                                    type="text" 
+                                    id="nomeCliente" 
+                                    name="Nome_do_Cliente" 
+                                    required 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                                    placeholder="João da Silva"
+                                >
+                            </div>
+
+                            <div>
+                                <label for="emailCliente" class="block text-sm font-medium text-gray-700 mb-1">E-mail do Cliente *</label>
+                                <input 
+                                    type="email" 
+                                    id="emailCliente" 
+                                    name="Email" 
+                                    required 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                                    placeholder="cliente@email.com"
+                                >
+                            </div>
+
+                            <div>
+                                <label for="telefoneCliente" class="block text-sm font-medium text-gray-700 mb-1">Telefone *</label>
+                                <input 
+                                    type="tel" 
+                                    id="telefoneCliente" 
+                                    name="Telefone" 
+                                    required 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                                    placeholder="(11) 99999-9999"
+                                >
+                            </div>
+
+                            <div>
+                                <label for="imeiCliente" class="block text-sm font-medium text-gray-700 mb-1">IMEI *</label>
+                                <input 
+                                    type="text" 
+                                    id="imeiCliente" 
+                                    name="IMEI" 
+                                    required 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                                    placeholder="123456789012345"
+                                >
+                            </div>
+
+                            <div>
+                                <label for="dataVenda" class="block text-sm font-medium text-gray-700 mb-1">Data de Venda *</label>
+                                <input 
+                                    type="date" 
+                                    id="dataVenda" 
+                                    name="Data_venda" 
+                                    required 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                                >
+                            </div>
+
+                            <div>
+                                <label for="dataVencimento" class="block text-sm font-medium text-gray-700 mb-1">Data de Vencimento *</label>
+                                <input 
+                                    type="date" 
+                                    id="dataVencimento" 
+                                    name="Data_vencimento" 
+                                    required 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                                >
+                            </div>
+                        </div>
+
+                        <button 
+                            type="submit" 
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200 flex items-center justify-center gap-2"
+                        >
+                            <i class="fas fa-save"></i>
+                            Cadastrar Cliente
+                        </button>
+                    </form>
+
+                    <div id="novoClienteError" class="mt-4 hidden"></div>
+                    <div id="novoClienteSucesso" class="mt-4 hidden"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://127.0.0.1:8000';
+
+        // ==================== FUNÇÕES DE AUTENTICAÇÃO ====================
+        
+        // Verificar se usuário está logado ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('access_token');
+            if (token) {
+                showDashboard();
+                loadClientes();
+            } else {
+                showLogin();
+            }
+
+            // Event listeners dos formulários
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+            document.getElementById('novoClienteForm').addEventListener('submit', handleNovoCliente);
+        });
+
+        // Login
+        async function handleLogin(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+
+            try {
+                const response = await fetch(`${API_URL}/login/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        senha: senha
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('access_token', data.access_token);
+                    localStorage.setItem('user_email', email);
+                    document.getElementById('loginForm').reset();
+                    showDashboard();
+                    loadClientes();
+                } else {
+                    showLoginError(data.detail || 'Erro ao fazer login');
+                }
+            } catch (error) {
+                showLoginError('Erro de conexão. Verifique se o backend está rodando em http://127.0.0.1:8000');
+                console.error('Erro:', error);
+            }
+        }
+
+        // Registrar nova conta
+        async function handleRegister(e) {
+            e.preventDefault();
+
+            const nome = document.getElementById('regNome').value;
+            const email = document.getElementById('regEmail').value;
+            const senha = document.getElementById('regSenha').value;
+
+            try {
+                const response = await fetch(`${API_URL}/login/criar_conta`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nome: nome,
+                        email: email,
+                        senha: senha
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showRegisterSuccess('Conta criada com sucesso! Você pode fazer login agora.');
+                    document.getElementById('registerForm').reset();
+                    setTimeout(() => {
+                        closeRegisterModal();
+                    }, 1500);
+                } else {
+                    // Tratamento de diferentes tipos de erro
+                    let errorMessage = 'Erro ao criar conta';
+                    if (data.detail) {
+                        if (typeof data.detail === 'string') {
+                            errorMessage = data.detail;
+                        } else if (Array.isArray(data.detail)) {
+                            errorMessage = data.detail.map(err => err.msg || JSON.stringify(err)).join('; ');
+                        }
+                    }
+                    showRegisterError(errorMessage);
+                }
+            } catch (error) {
+                showRegisterError('Erro de conexão ao criar conta');
+                console.error('Erro:', error);
+            }
+        }
+
+        // ==================== FUNÇÕES DO DASHBOARD ====================
+
+        // Carregar clientes
+        async function loadClientes() {
+            const token = localStorage.getItem('access_token');
+            
+            if (!token) {
+                showLogin();
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/clientes/meus-clientes`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                document.getElementById('loadingClientes').classList.add('hidden');
+
+                if (response.ok) {
+                    if (data.length === 0) {
+                        document.getElementById('emptyClientes').classList.remove('hidden');
+                        document.getElementById('clientesTable').classList.add('hidden');
+                    } else {
+                        document.getElementById('emptyClientes').classList.add('hidden');
+                        document.getElementById('clientesTable').classList.remove('hidden');
+                        renderClientes(data);
+                    }
+                } else {
+                    if (response.status === 401) {
+                        logout();
+                    } else {
+                        showClientesError(data.detail || 'Erro ao carregar clientes');
+                    }
+                }
+            } catch (error) {
+                document.getElementById('loadingClientes').classList.add('hidden');
+                showClientesError('Erro de conexão ao carregar clientes');
+                console.error('Erro:', error);
+            }
+        }
+
+        // Renderizar tabela de clientes
+        function renderClientes(clientes) {
+            const tbody = document.getElementById('clientesList');
+            tbody.innerHTML = '';
+
+            clientes.forEach(cliente => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50 transition';
+                row.innerHTML = `
+                    <td class="px-6 py-4 text-sm text-gray-900">${cliente.Nome_do_Cliente}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900">${cliente.Email}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900">${cliente.Telefone}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900">${cliente.IMEI}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900">${cliente.Data_venda}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900">${cliente.Data_vencimento}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Cadastrar novo cliente
+        async function handleNovoCliente(e) {
+            e.preventDefault();
+
+            const token = localStorage.getItem('access_token');
+            
+            if (!token) {
+                showLogin();
+                return;
+            }
+
+            const formData = new FormData(e.target);
+            const clienteData = {
+                Nome_do_Cliente: formData.get('Nome_do_Cliente'),
+                Email: formData.get('Email'),
+                Telefone: formData.get('Telefone'),
+                IMEI: formData.get('IMEI'),
+                Data_venda: formData.get('Data_venda'),
+                Data_vencimento: formData.get('Data_vencimento')
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/cadastro/cadastro`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(clienteData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showNovoClienteSucesso('Cliente cadastrado com sucesso!');
+                    document.getElementById('novoClienteForm').reset();
+                    setTimeout(() => {
+                        loadClientes();
+                        switchTab('meus-clientes');
+                    }, 1500);
+                } else {
+                    showNovoClienteError(data.detail || 'Erro ao cadastrar cliente');
+                }
+            } catch (error) {
+                showNovoClienteError('Erro de conexão ao cadastrar cliente');
+                console.error('Erro:', error);
+            }
+        }
+
+        // ==================== FUNÇÕES DE UI ====================
+
+        function showLogin() {
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('dashboard').classList.add('hidden');
+        }
+
+        function showDashboard() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('userEmail').textContent = localStorage.getItem('user_email') || '';
+        }
+
+        function showRegisterModal() {
+            document.getElementById('registerModal').classList.remove('hidden');
+            document.getElementById('registerError').classList.add('hidden');
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('registerModal').classList.add('hidden');
+            document.getElementById('registerForm').reset();
+            document.getElementById('registerError').classList.add('hidden');
+        }
+
+        function switchTab(tabName) {
+            // Esconder todos os tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+
+            // Remover classe ativa de todos os botões
+            document.querySelectorAll('.tabBtn').forEach(btn => {
+                btn.classList.remove('border-b-2', 'border-blue-600', 'text-blue-600');
+                btn.classList.add('border-transparent', 'text-gray-600');
+            });
+
+            // Mostrar tab selecionado
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+
+            // Ativar botão selecionado
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('border-b-2', 'border-blue-600', 'text-blue-600');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.remove('border-transparent', 'text-gray-600');
+        }
+
+        function logout() {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user_email');
+            showLogin();
+            document.getElementById('loginForm').reset();
+        }
+
+        // ==================== FUNÇÕES DE MENSAGENS DE ERRO ====================
+
+        function showLoginError(message) {
+            const errorDiv = document.getElementById('loginError');
+            errorDiv.innerHTML = `
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded flex items-center gap-2">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            errorDiv.classList.remove('hidden');
+        }
+
+        function showRegisterError(message) {
+            const errorDiv = document.getElementById('registerError');
+            errorDiv.innerHTML = `
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded flex items-center gap-2">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            errorDiv.classList.remove('hidden');
+        }
+
+        function showRegisterSuccess(message) {
+            const errorDiv = document.getElementById('registerError');
+            errorDiv.innerHTML = `
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded flex items-center gap-2">
+                    <i class="fas fa-check-circle"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            errorDiv.classList.remove('hidden');
+        }
+
+        function showClientesError(message) {
+            const errorDiv = document.getElementById('clientesError');
+            errorDiv.innerHTML = `
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded flex items-center gap-2">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            errorDiv.classList.remove('hidden');
+        }
+
+        function showNovoClienteError(message) {
+            const errorDiv = document.getElementById('novoClienteError');
+            errorDiv.innerHTML = `
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded flex items-center gap-2">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            errorDiv.classList.remove('hidden');
+        }
+
+        function showNovoClienteSucesso(message) {
+            const errorDiv = document.getElementById('novoClienteSucesso');
+            errorDiv.innerHTML = `
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded flex items-center gap-2">
+                    <i class="fas fa-check-circle"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            errorDiv.classList.remove('hidden');
+            setTimeout(() => {
+                errorDiv.classList.add('hidden');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
